@@ -1,0 +1,9 @@
+{
+    "node": "<NODE IP>",
+    "port": "<NODE PORT>",
+    "isTestnet": true, // True for test net, false for main
+    "epochPoolTime": 1516110177,  // date in unix format from which you want to calculate a pyouts
+    "sharedPercent": 50, // Share percent
+    "minPayout": 1, // Min payout amount
+    "delegatePubKey": "DELEGATE PUB KEY"
+}

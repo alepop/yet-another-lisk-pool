@@ -1,0 +1,17 @@
+{
+    "name": "yet-another-lisk-pool",
+    "version": "0.0.1",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "get:payouts": "node ./scripts/get-payouts.js",
+        "sign:transactions": "node ./scripts/sign-transactions.js",
+        "broadcast:transactions": "node ./scripts/broadcast-transactions.js"
+    },
+    "dependencies": {
+        "axios": "^0.17.1",
+        "bignumber.js": "^5.0.0",
+        "jsonfile": "^4.0.0",
+        "lisk-js": "^0.5.0"
+    }
+}
