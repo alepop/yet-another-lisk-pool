@@ -7,7 +7,7 @@ Simple Lisk pool script (in development)
 Installation
 ------------
 
-    git clone git@github.com:alepop/yet-another-lisk-pool.git
+    git clone https://github.com/alepop/yet-another-lisk-pool.git
     cd ./yet-another-lisk-pool
     mkdir data
     npm install
@@ -25,6 +25,6 @@ npm run get:payouts // will calculate rewards and safe it to the ./data/balance.
 
 npm run sign:transactions -- "secret" "secondSecre" // will sign transaction and safe it to the ./data/payouts.json file
 
-npm run broadcast:transactions // Broad cast transaction to the network
+npm run broadcast:transactions // Broad cast transactions to the network
 
 ```

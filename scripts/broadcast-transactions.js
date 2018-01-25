@@ -22,16 +22,20 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
     console.log('Start broadcasting.');
     for (let num in transactions) {
         const transaction = transactions[num];
-        const { data } = await instance.post('/peer/transactions', {
-            transaction,
-        });
-        console.log(
-            `Transaction ${transaction.id}: ${
-                data.success
-                    ? `Sent to ${transaction.recipientId}.`
-                    : data.message
-            }`,
-        );
-        await sleep(1000);
+        try {
+            const { data } = await instance.post('/peer/transactions', {
+                transaction,
+            });
+            console.log(
+                `Transaction ${transaction.id}: ${
+                    data.success
+                        ? `Sent to ${transaction.recipientId}.`
+                        : data.message
+                }`,
+            );
+            await sleep(1000);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 })();
