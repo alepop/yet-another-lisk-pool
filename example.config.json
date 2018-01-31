@@ -5,5 +5,9 @@
     "epochPoolTime": 1516110177,  // date in unix format from which you want to calculate a pyouts
     "sharedPercent": 50, // Share percent
     "minPayout": 1, // Min payout amount
-    "delegatePubKey": "DELEGATE PUB KEY"
+    "delegatePubKey": "DELEGATE PUB KEY",
+    "exclude": {
+        "addresses": [], // Add addresses to exlude
+        "weightCap": 100000 // Remove accounts with cap greater or equal then value. `null` value will turn of this filter
+    }
 }
