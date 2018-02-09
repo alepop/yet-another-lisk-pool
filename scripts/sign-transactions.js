@@ -44,12 +44,21 @@ const omit = (ids, obj) =>
         amount: data.accounts[id].pending - 0.1,
     }));
 
+    let donations = [];
+    if (data.donations) {
+        donations = Object.keys(data.donations).map(id => ({
+            address: id,
+            amount: data.donations[id].pending,
+        }));
+    }
+
     console.log('Sign transactions...');
-    const signedTransactions = getSignedTransactions(accountsToPay);
+    const signedTransactions = getSignedTransactions([...accountsToPay, ...donations]);
     console.log('Save signed transactions to file...');
     saveSignedTransactions(signedTransactions);
     console.log('Remove signed transactions addresses from balance file');
     const updatedData = omit(addressIds, data.accounts);
     data.accounts = updatedData;
+    data.donations = {};
     overideBalanceFile(data);
 })();

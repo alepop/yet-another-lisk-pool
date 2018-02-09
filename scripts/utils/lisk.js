@@ -29,8 +29,15 @@ const calculateRewards = (accounts, reward, voteWeight) =>
         [],
     );
 
-const updateRewards = (data, payouts, date) => {
-    payouts.map(({ address, balance }) => {
+const calculateDonations = (rule, reward) =>
+    Object.keys(rule).reduce((acc, address) => (
+        acc[address] = {
+            pending: reward * parseFloat(rule[address]) / 100,
+        }, acc
+    ), {});
+
+const updateRewards = (data, { rewards, donations }, date) => {
+    rewards.map(({ address, balance }) => {
         const isAddressExist = data.accounts[address];
         if (!isAddressExist) {
             // Add new record
@@ -46,6 +53,7 @@ const updateRewards = (data, payouts, date) => {
             };
         }
     });
+    data.donations = donations;
     data.lastpayout = date;
     return data;
 };
@@ -55,6 +63,7 @@ module.exports = {
     toRawLsk,
     updateRewards,
     calculateRewards,
+    calculateDonations,
     getTotalVoteWeight,
     updatePending,
 };

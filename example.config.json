@@ -9,5 +9,8 @@
     "exclude": {
         "addresses": [], // Add addresses to exlude
         "weightCap": 100000 // Remove accounts with cap greater or equal then value. `null` value will turn of this filter
+    },
+    "donations": {
+       "donationAddress": "percentage" // Add address and donation percentage
     }
 }

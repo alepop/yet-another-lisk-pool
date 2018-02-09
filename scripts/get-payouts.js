@@ -2,7 +2,7 @@ const fs = require('jsonfile');
 const { getRewards, getAccountsAndTotalVoteWeight } = require('./utils/api.js');
 const config = require('../config.json');
 const path = require('path');
-const { calculateRewards, updateRewards } = require('./utils/lisk.js');
+const { calculateRewards, updateRewards, calculateDonations } = require('./utils/lisk.js');
 const { getBalanceFile, saveRewards } = require('./utils/file.js');
 
 const getDate = () => {
@@ -31,7 +31,14 @@ const getDate = () => {
     console.log('Calculate voters rewards...');
 
     const rewards = calculateRewards(accounts, sharingReward, totalWeight);
+
+    let donations = {};
+    if (config.donations) {
+        console.log('Calculate donations rewards...');
+        donations = calculateDonations(config.donations, reward);
+    }
+
     console.log('Saving data...');
-    saveRewards(data, rewards, today);
+    saveRewards(data, { rewards, donations }, today);
     console.log('Data saved to file.');
 })();

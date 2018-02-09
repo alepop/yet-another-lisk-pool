@@ -23,9 +23,9 @@ const overideBalanceFile = data =>
     fs.writeFileSync(BALANCE_FILE, data, { spaces: 2 });
 
 // Update and save data to file
-const saveRewards = (data, rewards, date) => {
+const saveRewards = (data, { rewards, donations }, date) => {
     try {
-        const updatedData = updateRewards(data, rewards, date);
+        const updatedData = updateRewards(data, { rewards, donations }, date);
         fs.writeFileSync(BALANCE_FILE, data, { spaces: 2 });
     } catch (error) {
         console.error('Cant write to file', error.message);
