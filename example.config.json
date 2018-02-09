@@ -9,5 +9,6 @@
     "exclude": {
         "addresses": [], // Add addresses to exlude
         "weightCap": 100000 // Remove accounts with cap greater or equal then value. `null` value will turn of this filter
-    }
+    },
+    "weightCap": [50000, 70000, 100000] // Add weight cap rule to change accounts weight (example: account with weight 75k becomes 70k, 120k becomes 100)
 }
