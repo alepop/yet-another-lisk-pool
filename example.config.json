@@ -12,5 +12,6 @@
     },
     "donations": {
        "donationAddress": "percentage" // Add address and donation percentage
-    }
+    },
+    "weightCap": [50000, 70000, 100000] // Add weight cap rule to change accounts weight (example: account with weight 75k becomes 70k, 120k becomes 100)
 }

@@ -7,9 +7,13 @@ const { getBalanceFile, saveRewards } = require('./utils/file.js');
 
 const getDate = () => {
     const now = new Date();
-    const startsOfTheDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startsOfTheDay = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+    );
     return startsOfTheDay.getTime() / 1000;
-}
+};
 
 (async () => {
     const data = getBalanceFile();

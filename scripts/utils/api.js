@@ -1,6 +1,6 @@
 const { api } = require('lisk-js');
 const { fromRawLsk, getTotalVoteWeight } = require('./lisk.js');
-const { removeExludedAccounts } = require('./accounts.js');
+const { removeExludedAccounts, validateAccauntWeight } = require('./accounts.js');
 const config = require('../../config.json');
 
 const network = new api({ testnet: config.isTestnet });
@@ -25,7 +25,10 @@ const getAccountsAndTotalVoteWeight = async () => {
     const { accounts } = await network.sendRequest(
         `delegates/voters?publicKey=${config.delegatePubKey}`,
     );
-    const filteredAccounts = removeExludedAccounts(accounts);
+
+    const filteredAccounts = removeExludedAccounts(accounts); // Exlude accounts based on config
+    const validatedAccounts = validateAccauntWeight(filteredAccounts); // Change accaunts weight
+
     console.log('Calculate total vote weight...');
     const totalWeight = getTotalVoteWeight(filteredAccounts);
     return {
