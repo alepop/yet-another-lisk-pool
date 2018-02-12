@@ -1,6 +1,7 @@
 const axios = require('axios');
 const config = require('../config.json');
 const { getNetHash } = require('./utils/api.js');
+const { fromRawLsk } = require('./utils/lisk.js');
 const { getSignedTransactionsFile } = require('./utils/file.js');
 
 const instance = axios.create({
@@ -10,7 +11,7 @@ const instance = axios.create({
         nethash: getNetHash(),
         version: '1.0.0',
         minVersion: '>=0.9.5',
-        port: 7000,
+        port: 1,
     },
 });
 
@@ -29,7 +30,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
             console.log(
                 `Transaction ${transaction.id}: ${
                     data.success
-                        ? `Sent to ${transaction.recipientId}.`
+                        ? `Sent ${fromRawLsk(transaction.amount)} LSK to ${transaction.recipientId}.`
                         : data.message
                 }`,
             );
