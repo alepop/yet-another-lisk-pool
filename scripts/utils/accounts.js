@@ -24,9 +24,7 @@ const weightCapValidator = balance =>
         );
 
 const accountWeightChanger = account => {
-    console.log('pre', fromRawLsk(account.balance))
     account.balance = toRawLsk(weightCapValidator(fromRawLsk(account.balance)));
-    console.log('post', fromRawLsk(account.balance))
     return account;
 };
 

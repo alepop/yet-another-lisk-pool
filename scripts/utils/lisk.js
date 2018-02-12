@@ -35,7 +35,7 @@ const updateRewards = (data, payouts, date) => {
         if (!isAddressExist) {
             // Add new record
             data.accounts[address] = {
-                pending: balance,
+                pending: new BigNumber(balance).toFixed(),
             };
         } else {
             // Update exist account
