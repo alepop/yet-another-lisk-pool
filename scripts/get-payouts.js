@@ -1,8 +1,6 @@
-const fs = require('jsonfile');
 const { getRewards, getAccountsAndTotalVoteWeight } = require('./utils/api.js');
 const config = require('../config.json');
-const path = require('path');
-const { calculateRewards, updateRewards } = require('./utils/lisk.js');
+const { calculateRewards } = require('./utils/lisk.js');
 const { getBalanceFile, saveRewards } = require('./utils/file.js');
 
 const getDate = () => {
@@ -12,7 +10,7 @@ const getDate = () => {
         now.getMonth(),
         now.getDate(),
     );
-    return startsOfTheDay.getTime() / 1000;
+    return startsOfTheDay.getTime()
 };
 
 (async () => {
@@ -22,7 +20,7 @@ const getDate = () => {
 
     console.log(
         `Forged: ${reward} LSK from ${new Date(
-            data.lastpayout * 1000,
+            data.lastpayout,
         ).toLocaleString()}`,
     );
     console.log(
