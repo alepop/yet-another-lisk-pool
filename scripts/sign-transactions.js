@@ -1,4 +1,4 @@
-const { transaction } = require('lisk-js');
+const { transaction } = require('lisk-elements').default;
 const config = require('../config.json');
 const {
     getBalanceFile,
@@ -7,8 +7,8 @@ const {
 } = require('./utils/file.js');
 const { toRawLsk } = require('./utils/lisk.js');
 
-const secret = process.argv[2];
-const secondSecret = process.argv[3];
+const passphrase = process.argv[2];
+const secondPassphrase = process.argv[3];
 
 const getPayoutAddresses = ({ accounts }) =>
     Object.keys(accounts).filter(
@@ -17,12 +17,12 @@ const getPayoutAddresses = ({ accounts }) =>
 
 const getSignedTransactions = data =>
     data.map(({ address, amount }) =>
-        transaction.createTransaction(
-            address,
-            toRawLsk(amount),
-            secret,
-            secondSecret,
-        ),
+        transaction.transfer({
+            recipientId: address,
+            amount: toRawLsk(amount),
+            passphrase,
+            secondPassphrase,
+        }),
     );
 
 const omit = (ids, obj) =>

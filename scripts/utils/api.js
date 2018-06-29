@@ -1,17 +1,21 @@
-const { api } = require('lisk-js');
+const { APIClient } = require('lisk-elements').default;
 const { fromRawLsk, getTotalVoteWeight } = require('./lisk.js');
 const { removeExludedAccounts, validateAccauntWeight } = require('./accounts.js');
 const config = require('../../config.json');
 
-const network = new api({ testnet: config.isTestnet });
+const node = config.node && `${config.node}:${config.port}`
 
-const getRewards = async (start, end) => {
+const client = config.isTestnet ?
+    APIClient.createTestnetAPIClient({node}) :
+    APIClient.createMainnetAPIClient({node});
+
+const getRewards = async (fromTimestamp, toTimestamp) => {
     console.log('Get forging data...');
-    const data = await network.sendRequest(
-        `delegates/forging/getForgedByAccount?generatorPublicKey=${
-            config.delegatePubKey
-        }&start=${start}&end=${end}`,
-    );
+    // Get delegate address for next request
+    const { data: [ delegate ]} = await client.delegates.get({ publicKey: config.delegatePubKey});
+    const { address } = delegate.account;
+
+    const { data } = await client.delegates.getForgingStatistics(address, { fromTimestamp, toTimestamp })
     const reward = fromRawLsk(data.rewards);
     const sharingReward = reward * config.sharedPercent / 100;
     return {
@@ -22,11 +26,9 @@ const getRewards = async (start, end) => {
 
 const getAccountsAndTotalVoteWeight = async () => {
     console.log('Get accounts data...');
-    const { accounts } = await network.sendRequest(
-        `delegates/voters?publicKey=${config.delegatePubKey}`,
-    );
+    const { data: { voters }} = await client.voters.get({publicKey: config.delegatePubKey});
 
-    const filteredAccounts = removeExludedAccounts(accounts); // Exlude accounts based on config
+    const filteredAccounts = removeExludedAccounts(voters); // Exlude accounts based on config
     const validatedAccounts = validateAccauntWeight(filteredAccounts); // Change accaunts weight
 
     console.log('Calculate total vote weight...');
@@ -37,13 +39,8 @@ const getAccountsAndTotalVoteWeight = async () => {
     };
 };
 
-const getNetHash = () =>
-    config.isTestnet
-        ? 'da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba'
-        : 'ed14889723f24ecc54871d058d98ce91ff2f973192075c0155ba2b7b70ad2511';
-
 module.exports = {
     getAccountsAndTotalVoteWeight,
     getRewards,
-    getNetHash,
+    client
 };

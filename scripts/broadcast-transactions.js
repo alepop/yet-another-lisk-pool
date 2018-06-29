@@ -1,19 +1,6 @@
-const axios = require('axios');
-const config = require('../config.json');
-const { getNetHash } = require('./utils/api.js');
+const { client } = require('./utils/api.js');
 const { fromRawLsk } = require('./utils/lisk.js');
 const { getSignedTransactionsFile } = require('./utils/file.js');
-
-const instance = axios.create({
-    baseURL: `${config.node}:${config.port}`,
-    headers: {
-        'Content-Type': 'application/json',
-        nethash: getNetHash(),
-        version: '1.0.0',
-        minVersion: '>=0.9.5',
-        port: 1,
-    },
-});
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -24,9 +11,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
     for (let num in transactions) {
         const transaction = transactions[num];
         try {
-            const { data } = await instance.post('/peer/transactions', {
-                transaction,
-            });
+            const { data } = await client.transactions.broadcast(transaction);
             console.log(
                 `Transaction ${transaction.id}: ${
                     data.success
@@ -36,7 +21,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
             );
             await sleep(1000);
         } catch (error) {
-            console.log(error.message);
+            console.log(error);
         }
     }
 })();
