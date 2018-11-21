@@ -11,7 +11,7 @@ const getBalanceFile = () => {
         return fs.readFileSync(BALANCE_FILE);
     } catch (error) {
         const data = {
-            lastpayout: config.epochPoolTime,
+            lastpayout: config.epochPoolTime*1000,
             accounts: {},
         };
         fs.writeFileSync(BALANCE_FILE, data, { spaces: 2 });

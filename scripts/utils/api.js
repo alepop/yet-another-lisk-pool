@@ -24,7 +24,7 @@ const getRewards = async (fromTimestamp, toTimestamp) => {
     fromTimestamp,
     toTimestamp
   });
-  const reward = fromRawLsk(data.rewards);
+  const reward = fromRawLsk(data.forged);
   const sharingReward = (reward * config.sharedPercent) / 100;
   return {
     reward,
